@@ -1,0 +1,163 @@
+# Procedure Configuration
+# Add new procedures without touching code
+
+procedures:
+  "72148":
+    name: "MRI Lumbar Spine"
+    category: "diagnostic_imaging"
+    typical_cost: 1500
+    requires_prior_auth: true
+    urgency_levels:
+      - routine
+      - urgent
+      - stat
+    
+    documentation_requirements:
+      - type: "clinical_notes"
+        description: "History and physical examination"
+        mandatory: true
+      - type: "conservative_treatment"
+        description: "Documentation of failed conservative treatment"
+        mandatory: true
+        keywords:
+          - "physical therapy"
+          - "medication"
+          - "injection"
+          - "failed"
+      - type: "symptom_duration"
+        description: "Duration of symptoms"
+        mandatory: true
+        minimum_duration_weeks: 6
+    
+    approval_criteria:
+      primary: "6+ weeks conservative treatment failure"
+      secondary:
+        - "Radicular symptoms present"
+        - "Neurological deficits documented"
+        - "Red flag symptoms ruled out"
+    
+    standard_questions:
+      - "How long has the patient experienced symptoms?"
+      - "What conservative treatments have been attempted?"
+      - "Are there any red flag symptoms present?"
+      - "What are the clinical findings from physical examination?"
+    
+    turnaround_time:
+      routine: "3-5 business days"
+      urgent: "24-48 hours"
+      stat: "4-6 hours"
+    
+    escalation_triggers:
+      - keyword: "experimental"
+        action: "clinical_review"
+      - keyword: "off-label"
+        action: "peer_to_peer"
+      - keyword: "medical necessity unclear"
+        action: "clinical_review"
+
+  "29881":
+    name: "Knee Arthroscopy with Meniscectomy"
+    category: "surgical_procedure"
+    typical_cost: 8500
+    requires_prior_auth: true
+    urgency_levels:
+      - routine
+      - urgent
+    
+    documentation_requirements:
+      - type: "imaging_results"
+        description: "X-ray or MRI results"
+        mandatory: true
+        keywords:
+          - "x-ray"
+          - "MRI"
+          - "imaging"
+      - type: "physical_therapy"
+        description: "Physical therapy completion"
+        mandatory: true
+        minimum_duration_weeks: 4
+      - type: "physical_exam"
+        description: "Physical examination findings"
+        mandatory: true
+    
+    approval_criteria:
+      primary: "Mechanical symptoms with failed conservative treatment"
+      secondary:
+        - "Positive McMurray test"
+        - "MRI confirmation of meniscal tear"
+        - "Failed 4+ weeks of physical therapy"
+    
+    standard_questions:
+      - "What do imaging studies show?"
+      - "Has the patient completed physical therapy?"
+      - "What is the severity of mechanical symptoms?"
+      - "Are there any contraindications to surgery?"
+    
+    turnaround_time:
+      routine: "2-3 business days"
+      urgent: "24 hours"
+    
+    escalation_triggers:
+      - keyword: "bilateral"
+        action: "clinical_review"
+      - keyword: "revision"
+        action: "peer_to_peer"
+
+  "99285":
+    name: "Emergency Department Visit - High Complexity"
+    category: "evaluation_management"
+    typical_cost: 1200
+    requires_prior_auth: false
+    urgency_levels:
+      - stat
+    
+    documentation_requirements:
+      - type: "chief_complaint"
+        description: "Presenting complaint"
+        mandatory: true
+      - type: "medical_decision_making"
+        description: "High complexity MDM documentation"
+        mandatory: true
+      - type: "treatment_provided"
+        description: "Treatment and disposition"
+        mandatory: true
+    
+    approval_criteria:
+      primary: "High complexity medical decision making documented"
+      secondary:
+        - "Multiple diagnoses considered"
+        - "Extensive data reviewed"
+        - "High risk of complications"
+    
+    standard_questions:
+      - "What was the presenting complaint?"
+      - "What level of medical decision making was required?"
+      - "Was admission considered?"
+      - "What diagnostic tests were performed?"
+    
+    turnaround_time:
+      stat: "Immediate"
+
+# Default template for unknown procedures
+default_procedure:
+  name: "Unknown Procedure"
+  category: "general"
+  requires_prior_auth: true
+  urgency_levels:
+    - routine
+  
+  documentation_requirements:
+    - type: "clinical_documentation"
+      description: "Clinical documentation"
+      mandatory: true
+  
+  approval_criteria:
+    primary: "Medical necessity established"
+  
+  standard_questions:
+    - "What is the medical necessity for this procedure?"
+    - "What is the diagnosis?"
+    - "What documentation is available?"
+  
+  turnaround_time:
+    routine: "3-5 business days"

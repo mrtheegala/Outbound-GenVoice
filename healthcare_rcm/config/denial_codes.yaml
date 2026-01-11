@@ -1,0 +1,241 @@
+# Denial Code Configuration
+# Add new denial codes without touching code
+
+denial_codes:
+  "CO-16":
+    description: "Claim lacks information or has submission/billing error"
+    category: "administrative"
+    severity: "medium"
+    
+    common_reasons:
+      - "Missing documentation"
+      - "Incomplete claim form"
+      - "Missing signature"
+      - "Invalid provider information"
+    
+    resolution_strategy:
+      primary: "Request specific missing information"
+      steps:
+        - "Identify exact missing information"
+        - "Gather required documentation"
+        - "Resubmit corrected claim"
+      timeline: "3-5 days after resubmission"
+    
+    questions:
+      - "What specific information is missing from the claim?"
+      - "Can you specify which fields are incomplete?"
+      - "What documentation do you need?"
+      - "Is there a specific form required?"
+    
+    success_probability: 0.85
+    requires_escalation: false
+    appeal_eligible: false
+    
+    resolution_department: "Claims Processing"
+
+  "CO-197":
+    description: "Precertification/authorization absent"
+    category: "authorization"
+    severity: "high"
+    
+    common_reasons:
+      - "No prior authorization obtained"
+      - "Authorization expired"
+      - "Wrong authorization number"
+      - "Authorization for different procedure"
+    
+    resolution_strategy:
+      primary: "Request retroactive authorization or initiate appeal"
+      steps:
+        - "Check if retroactive auth is possible"
+        - "If not, initiate appeal process"
+        - "Provide medical necessity documentation"
+        - "Request peer-to-peer if needed"
+      timeline: "10-15 days"
+    
+    questions:
+      - "Can we obtain retroactive authorization?"
+      - "What is the process for retroactive auth?"
+      - "Is peer-to-peer review available?"
+      - "What is the appeal timeline?"
+      - "What documentation is needed for appeal?"
+    
+    success_probability: 0.60
+    requires_escalation: true
+    escalation_reason: "May require clinical review or peer-to-peer"
+    appeal_eligible: true
+    appeal_deadline_days: 30
+    
+    resolution_department: "Prior Authorization Department"
+    
+    related_actions:
+      - type: "prior_auth_request"
+        is_retroactive: true
+      - type: "appeal"
+        requires_clinical_review: true
+
+  "CO-50":
+    description: "Non-covered service"
+    category: "coverage"
+    severity: "high"
+    
+    common_reasons:
+      - "Not in benefit plan"
+      - "Experimental or investigational"
+      - "Cosmetic procedure"
+      - "Service not medically necessary"
+    
+    resolution_strategy:
+      primary: "Appeal with medical necessity or verify coding accuracy"
+      steps:
+        - "Verify correct procedure code used"
+        - "Check for alternative covered codes"
+        - "If coding correct, prepare appeal"
+        - "Gather medical necessity documentation"
+      timeline: "15-30 days (appeal process)"
+    
+    questions:
+      - "Why is this service considered non-covered?"
+      - "Is there a coding error?"
+      - "Can we appeal with additional documentation?"
+      - "Is there an alternative covered code?"
+      - "What would make this service covered?"
+    
+    success_probability: 0.40
+    requires_escalation: true
+    escalation_reason: "Requires clinical documentation and appeal"
+    appeal_eligible: true
+    appeal_deadline_days: 60
+    
+    resolution_department: "Medical Review Department"
+
+  "CO-97":
+    description: "Payment adjusted - benefit included in another service"
+    category: "bundling"
+    severity: "medium"
+    
+    common_reasons:
+      - "Bundled with another procedure"
+      - "Duplicate billing"
+      - "NCCI edit applied"
+      - "Global period service"
+    
+    resolution_strategy:
+      primary: "Verify bundling rules or apply appropriate modifier"
+      steps:
+        - "Review NCCI edits"
+        - "Determine if services were distinct"
+        - "Apply modifier 59 if appropriate"
+        - "Resubmit with modifier"
+      timeline: "5-7 days after correction"
+    
+    questions:
+      - "Which procedure is this bundled with?"
+      - "Can we use modifier 59 for distinct service?"
+      - "Is this an NCCI edit?"
+      - "What is the primary procedure?"
+      - "Were services performed at different sites?"
+    
+    success_probability: 0.75
+    requires_escalation: false
+    appeal_eligible: true
+    appeal_deadline_days: 30
+    
+    resolution_department: "Claims Adjustment"
+    
+    modifiers_to_consider:
+      - "59"  # Distinct procedural service
+      - "XE"  # Separate encounter
+      - "XS"  # Separate structure
+      - "XP"  # Separate practitioner
+      - "XU"  # Unusual non-overlapping service
+
+  "PR-1":
+    description: "Deductible amount"
+    category: "patient_responsibility"
+    severity: "low"
+    
+    common_reasons:
+      - "Patient deductible not met"
+      - "Annual deductible applies"
+    
+    resolution_strategy:
+      primary: "Verify deductible calculation and patient billing"
+      steps:
+        - "Verify patient deductible amount"
+        - "Confirm amount already met"
+        - "Validate calculation"
+        - "Bill patient if correct"
+      timeline: "Immediate (patient billing issue)"
+    
+    questions:
+      - "What is the patient's annual deductible?"
+      - "How much has been met this year?"
+      - "Is this calculation correct?"
+      - "Can you provide a detailed breakdown?"
+    
+    success_probability: 0.95
+    requires_escalation: false
+    appeal_eligible: false
+    
+    resolution_department: "Patient Accounts"
+
+  "CO-18":
+    description: "Duplicate claim/service"
+    category: "administrative"
+    severity: "low"
+    
+    common_reasons:
+      - "Claim already processed"
+      - "Duplicate submission"
+      - "Same service billed twice"
+    
+    resolution_strategy:
+      primary: "Verify if truly duplicate or resubmission needed"
+      steps:
+        - "Check original claim status"
+        - "Verify payment received"
+        - "If not duplicate, provide documentation"
+      timeline: "3-5 days"
+    
+    questions:
+      - "What is the original claim number?"
+      - "When was the original claim processed?"
+      - "Was payment issued for the original?"
+      - "Can you provide EOB for original claim?"
+    
+    success_probability: 0.80
+    requires_escalation: false
+    appeal_eligible: false
+    
+    resolution_department: "Claims Processing"
+
+# Default template for unknown denial codes
+default_denial:
+  description: "Unknown denial code"
+  category: "general"
+  severity: "medium"
+  
+  common_reasons:
+    - "Various reasons"
+  
+  resolution_strategy:
+    primary: "Contact payer for clarification"
+    steps:
+      - "Request detailed explanation"
+      - "Gather required information"
+      - "Follow payer instructions"
+    timeline: "7-14 days"
+  
+  questions:
+    - "Can you explain this denial reason?"
+    - "What is needed to resolve this?"
+    - "What is the appeal process?"
+    - "What is the timeline for resolution?"
+  
+  success_probability: 0.50
+  requires_escalation: false
+  appeal_eligible: true
+  appeal_deadline_days: 30
+  
+  resolution_department: "Claims Department"

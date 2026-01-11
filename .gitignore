@@ -1,0 +1,41 @@
+# Environment variables
+.env
+.env.local
+.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+*.egg
+dist/
+build/
+venv/
+.venv/
+
+# Logs
+*.log
+output.log
+
+# Prior auth records (test/demo data)
+prior_auth_records/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/

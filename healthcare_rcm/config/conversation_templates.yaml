@@ -1,0 +1,305 @@
+# Conversation Templates
+# Define reusable conversation flows
+
+conversation_stages:
+  prior_authorization:
+    "1":
+      name: "Introduction & Verification"
+      description: "Greet professionally, state provider name, NPI, and purpose"
+      key_points:
+        - "State agent name and role"
+        - "Mention provider name and NPI"
+        - "Clearly state purpose: prior authorization request"
+      success_criteria:
+        - "Representative confirms they can help"
+        - "Correct department reached"
+    
+    "2":
+      name: "Patient Demographics"
+      description: "Provide patient information and verify coverage"
+      key_points:
+        - "Patient name"
+        - "Date of birth"
+        - "Member ID"
+        - "Verify active coverage"
+      success_criteria:
+        - "Patient found in system"
+        - "Coverage confirmed active"
+    
+    "3":
+      name: "Procedure Request"
+      description: "State procedure code, name, and diagnosis"
+      key_points:
+        - "CPT procedure code"
+        - "Procedure name"
+        - "ICD diagnosis code"
+        - "Proposed service date"
+      success_criteria:
+        - "Procedure identified"
+        - "Authorization request initiated"
+    
+    "4":
+      name: "Medical Necessity"
+      description: "Explain clinical rationale and necessity"
+      key_points:
+        - "Clinical presentation"
+        - "Failed conservative treatments"
+        - "Duration of symptoms"
+        - "Severity and impact"
+      success_criteria:
+        - "Medical necessity understood"
+        - "Clinical criteria addressed"
+    
+    "5":
+      name: "Documentation Discussion"
+      description: "Confirm required documentation"
+      key_points:
+        - "What documentation is needed"
+        - "Submission method (fax/portal)"
+        - "Submission deadline"
+      success_criteria:
+        - "Clear list of required documents"
+        - "Submission process understood"
+    
+    "6":
+      name: "Timeline & Urgency"
+      description: "Confirm turnaround time and urgency"
+      key_points:
+        - "Standard turnaround time"
+        - "Urgency level if applicable"
+        - "Expedited review process"
+      success_criteria:
+        - "Expected decision date confirmed"
+        - "Urgency acknowledged if applicable"
+    
+    "7":
+      name: "Escalation Check"
+      description: "Identify if clinical review needed"
+      escalation_triggers:
+        - "peer to peer"
+        - "medical director review"
+        - "clinical criteria not met"
+        - "medical necessity unclear"
+      escalation_action: "Offer peer-to-peer with clinical director"
+      success_criteria:
+        - "Escalation path identified if needed"
+        - "Peer-to-peer scheduled if required"
+    
+    "8":
+      name: "Reference Number"
+      description: "Obtain authorization reference number"
+      key_points:
+        - "Request reference number"
+        - "Repeat back for confirmation"
+        - "Get representative name"
+        - "Get direct callback number"
+      success_criteria:
+        - "Reference number obtained"
+        - "Contact information captured"
+    
+    "9":
+      name: "Next Steps Confirmation"
+      description: "Summarize and confirm process"
+      key_points:
+        - "Summarize what was discussed"
+        - "Confirm next steps"
+        - "Confirm timelines"
+        - "Confirm notification method"
+      success_criteria:
+        - "All parties aligned on next steps"
+        - "No ambiguity remaining"
+    
+    "10":
+      name: "Professional Close"
+      description: "Thank and end call professionally"
+      key_points:
+        - "Thank representative"
+        - "Confirm understanding"
+        - "Professional goodbye"
+      success_criteria:
+        - "Call ended positively"
+        - "All information captured"
+
+  denial_management:
+    "1":
+      name: "Introduction & Claim Identification"
+      description: "State purpose and provide claim details"
+      key_points:
+        - "State agent name and provider"
+        - "Mention claim number"
+        - "State service date"
+        - "Mention denial code"
+      success_criteria:
+        - "Claim located in system"
+        - "Denial confirmed"
+    
+    "2":
+      name: "Denial Clarification"
+      description: "Request detailed explanation of denial"
+      key_points:
+        - "Ask for specific denial reason"
+        - "Request detailed explanation"
+        - "Confirm denial code meaning"
+      success_criteria:
+        - "Clear understanding of denial reason"
+        - "Specific requirements identified"
+    
+    "3":
+      name: "Resolution Discussion"
+      description: "Discuss resolution options"
+      key_points:
+        - "Ask about resolution process"
+        - "Inquire about resubmission vs appeal"
+        - "Confirm what's needed"
+      success_criteria:
+        - "Resolution path identified"
+        - "Requirements clear"
+    
+    "4":
+      name: "Documentation Requirements"
+      description: "Identify missing or additional documentation"
+      key_points:
+        - "List required documents"
+        - "Submission method"
+        - "Submission deadline"
+      success_criteria:
+        - "Complete documentation list"
+        - "Submission process clear"
+    
+    "5":
+      name: "Timeline Confirmation"
+      description: "Confirm resolution timeline"
+      key_points:
+        - "Reprocessing timeline"
+        - "Appeal deadline if applicable"
+        - "Expected decision date"
+      success_criteria:
+        - "Clear timeline established"
+        - "Deadlines documented"
+    
+    "6":
+      name: "Escalation Assessment"
+      description: "Determine if escalation needed"
+      escalation_triggers:
+        - "appeal required"
+        - "peer to peer needed"
+        - "medical review necessary"
+      escalation_action: "Initiate appropriate escalation process"
+      success_criteria:
+        - "Escalation path clear if needed"
+    
+    "7":
+      name: "Reference Documentation"
+      description: "Obtain reference information"
+      key_points:
+        - "Get reference number for inquiry"
+        - "Representative name"
+        - "Direct contact information"
+      success_criteria:
+        - "All reference info captured"
+    
+    "8":
+      name: "Next Steps Summary"
+      description: "Summarize resolution plan"
+      key_points:
+        - "Recap what will be submitted"
+        - "Confirm timeline"
+        - "Confirm follow-up process"
+      success_criteria:
+        - "Clear action plan"
+        - "All parties aligned"
+    
+    "9":
+      name: "Professional Close"
+      description: "Thank and end call"
+      key_points:
+        - "Thank representative"
+        - "Confirm next contact"
+        - "Professional goodbye"
+      success_criteria:
+        - "Call ended professionally"
+        - "All data captured"
+
+# Escalation protocols
+escalation_protocols:
+  clinical_review:
+    trigger_keywords:
+      - "medical necessity"
+      - "clinical criteria"
+      - "peer to peer"
+      - "medical director"
+    
+    response_template: "I understand this requires clinical review. Our medical director, Dr. {clinical_director_name}, is available for a peer-to-peer discussion. What is the process to schedule that?"
+    
+    required_information:
+      - "Peer-to-peer contact number"
+      - "Available time slots"
+      - "Required clinical documentation"
+    
+    escalation_timeline: "24-48 hours"
+  
+  appeal_process:
+    trigger_keywords:
+      - "appeal"
+      - "reconsideration"
+      - "dispute"
+    
+    response_template: "I understand we need to file an appeal. Can you provide the appeal process, required documentation, and deadline?"
+    
+    required_information:
+      - "Appeal submission address/portal"
+      - "Appeal deadline"
+      - "Required appeal documentation"
+      - "Appeal reference number"
+    
+    escalation_timeline: "30-60 days"
+  
+  supervisor_escalation:
+    trigger_keywords:
+      - "supervisor"
+      - "manager"
+      - "escalate"
+    
+    response_template: "I appreciate your help. May I speak with a supervisor to discuss this further?"
+    
+    required_information:
+      - "Supervisor name"
+      - "Supervisor contact"
+      - "Escalation reference number"
+    
+    escalation_timeline: "Immediate"
+
+# Success indicators
+success_indicators:
+  prior_authorization:
+    approved:
+      - "authorization approved"
+      - "auth number"
+      - "approved for"
+      - "authorization granted"
+    
+    pending:
+      - "pending review"
+      - "under review"
+      - "need additional information"
+    
+    denied:
+      - "authorization denied"
+      - "not approved"
+      - "does not meet criteria"
+  
+  denial_management:
+    resolved:
+      - "claim will be reprocessed"
+      - "approved for payment"
+      - "denial overturned"
+    
+    pending:
+      - "under review"
+      - "need additional documentation"
+      - "appeal in process"
+    
+    unresolved:
+      - "appeal denied"
+      - "upheld"
+      - "not covered"
